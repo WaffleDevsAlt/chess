@@ -96,7 +96,6 @@ function logic(pieceType, pieceColor, id, row, column) {
       'color': undefined,
       'takeables': []
     };
-
     return;
   }
   if (pieceColor != turn) return;
