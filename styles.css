@@ -60,6 +60,7 @@ html {
 }
 
 img {
+  position: relative;
   width:calc(100vw/16);
   height:calc(100vw/16);
 }
