@@ -7,6 +7,7 @@ var selectedpiece = {
 var whiteKing = 5
 var blackKing = 61
 var turn = 'w'
+let moved = []
 const path = './pieces/'
 const wrook = path + 'chess_11.png'
 const wknight = path + 'chess_10.png'
@@ -53,8 +54,9 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i") 
+    /* removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")  */
+    $('#'+i).html(($('#' + i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -98,6 +100,114 @@ function logic(pieceType, pieceColor, id, row, column) {
     	$('#result').html('Black won!')
       blackKing = 'dead'
     }
+    if(selectedpiece.type == 'rook' && pieceType == 'king' && pieceColor == selectedpiece.color && moved.includes(id) == false && moved.includes(selectedpiece.id) == false) {
+      if(selectedpiece.id == 8 && id == 5 && pieceColor == 'w') {
+        $('#6').addClass('wrook')
+        $('#5').removeClass('wking')
+        $('#7').addClass('wking')
+        $('#8').removeClass('wrook')
+        whiteKing = 7
+      }
+      else if (selectedpiece.id == 1 && id == 5 && pieceColor == 'w') {
+        $('#4').addClass('wrook')
+        $('#5').removeClass('wking')
+        $('#3').addClass('wking')
+        $('#1').removeClass('wrook')
+        whiteKing = 3
+      }
+      else if (selectedpiece.id == 64 && id == 61 && pieceColor == 'b') {
+        $('#62').addClass('brook')
+        $('#61').removeClass('bking')
+        $('#63').addClass('bking')
+        $('#64').removeClass('brook')
+        blackKing = 63
+      }
+      else if (selectedpiece.id == 57 && id == 61 && pieceColor == 'b') {
+        $('#60').addClass('brook')
+        $('#61').removeClass('bking')
+        $('#59').addClass('bking')
+        $('#57').removeClass('brook')
+        blackKing = 59
+      }
+   		drawBoard()
+      selectedpiece = {
+        'id': undefined,
+        'type': undefined,
+        'color': undefined,
+        'takeables': []
+      };
+      takeables = []
+      check = ''
+      for (let i = 1; i <= 64; i++) {
+        let apieceType = ($(`#${i}`).attr('class')).slice(12);
+        let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
+        let res = checkForCheck(apieceType, i, apieceColor)
+        for (let i = 0; i <= res.length; i++) {
+          if(res[i-1] != undefined) takeables.push(res[i-1])
+        }
+      }
+      if (takeables.includes(whiteKing)) check = 'White';
+      if (takeables.includes(blackKing)) check = 'Black'; 
+      if(check != '') {
+        $('#result').append('<br>' + check + '\'s king is in check!')
+      }
+			return;
+    }
+    
+    if(selectedpiece.type == 'king' && pieceType == 'rook' && pieceColor == selectedpiece.color && moved.includes(id) == false && moved.includes(selectedpiece.id) == false) {
+      if(selectedpiece.id == 5 && id == 8 && pieceColor == 'w') {
+        $('#6').addClass('wrook')
+        $('#5').removeClass('wking')
+        $('#7').addClass('wking')
+        $('#8').removeClass('wrook')
+        whiteKing = 7
+      }
+      else if (selectedpiece.id == 5 && id == 1 && pieceColor == 'w') {
+        $('#4').addClass('wrook')
+        $('#5').removeClass('wking')
+        $('#3').addClass('wking')
+        $('#1').removeClass('wrook')
+        whiteKing = 3
+      }
+      else if (selectedpiece.id == 61 && id == 64 && pieceColor == 'b') {
+        $('#62').addClass('brook')
+        $('#61').removeClass('bking')
+        $('#63').addClass('bking')
+        $('#64').removeClass('brook')
+        blackKing = 63
+      }
+      else if (selectedpiece.id == 61 && id == 57 && pieceColor == 'b') {
+        $('#60').addClass('brook')
+        $('#61').removeClass('bking')
+        $('#59').addClass('bking')
+        $('#57').removeClass('brook')
+        blackKing = 59
+      }
+   		drawBoard()
+      selectedpiece = {
+        'id': undefined,
+        'type': undefined,
+        'color': undefined,
+        'takeables': []
+      };
+      takeables = []
+      check = ''
+      for (let i = 1; i <= 64; i++) {
+        let apieceType = ($(`#${i}`).attr('class')).slice(12);
+        let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
+        let res = checkForCheck(apieceType, i, apieceColor)
+        for (let i = 0; i <= res.length; i++) {
+          if(res[i-1] != undefined) takeables.push(res[i-1])
+        }
+      }
+      if (takeables.includes(whiteKing)) check = 'White';
+      if (takeables.includes(blackKing)) check = 'Black'; 
+      if(check != '') {
+        $('#result').append('<br>' + check + '\'s king is in check!')
+      }
+			return;
+    }
+    
     $('#' + id).addClass(selectedpiece.color + selectedpiece.type)
     $('#' + id).removeClass(pieceColor + pieceType)
     $('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
@@ -106,6 +216,8 @@ function logic(pieceType, pieceColor, id, row, column) {
       if (selectedpiece.color == 'w') whiteKing = id;
       else if (selectedpiece.color == 'b') blackKing = id;
     }
+    if(selectedpiece.type == 'rook') moved.push(id)
+    if(selectedpiece.type == 'king') moved.push(id)
     selectedpiece = {
       'id': undefined,
       'type': undefined,
@@ -271,6 +383,9 @@ function logic(pieceType, pieceColor, id, row, column) {
         placeHighlights((id + i), '#855')
         break;
       }
+      if(($('#' + (id + i)).attr('class')).slice(11,12) == pieceColor && ($('#' + (id + i)).attr('class')).slice(12) == 'king' && pieceType == 'rook' && moved.includes(id) == false) {
+      	placeHighlights((id + i), '#658')
+      }
       if (($('#' + (id + i)).attr('class')).slice(12) == '') {
         placeHighlights((id + i), '#885')
       } else break;
@@ -282,6 +397,9 @@ function logic(pieceType, pieceColor, id, row, column) {
       if (($('#' + (id - i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id - i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
         placeHighlights((id - i), '#855')
         break;
+      }
+      if(($('#' + (id - i)).attr('class')).slice(11,12) == pieceColor && ($('#' + (id - i)).attr('class')).slice(12) == 'king' && pieceType == 'rook' && moved.includes(id) == false) {
+      	placeHighlights((id - i), '#658')
       }
       if (($('#' + (id - i)).attr('class')).slice(12) == '' && Math.floor((id + 7 - i) / 8) == row) {
         placeHighlights((id - i), '#885')
@@ -315,6 +433,29 @@ function logic(pieceType, pieceColor, id, row, column) {
 
   //king highlighting
   if (pieceType == 'king' || pieceType == 'queen') {
+  
+  
+  	if(pieceType == 'king') {
+  	 for (let i = 1; i <= 7; i++) {
+        if (Math.floor((id + 7 + i) / 8) != row) break;
+        if (id + i > 64) break;
+        if(($('#' + (id + i)).attr('class')).slice(11,12) == pieceColor && ($('#' + (id + i)).attr('class')).slice(12) == 'rook' && moved.includes(id) == false && moved.includes(5) == false) {
+          placeHighlights((id + i), '#658')
+        }
+        else if(($('#' + (id + i)).attr('class')).slice(12) != '') break;
+      }
+      //left
+      for (let i = 1; i <= 7; i++) {
+        if (Math.floor((id + 7 - i) / 8) != row) break;
+        if (id - i <= 0) break;
+        if(($('#' + (id - i)).attr('class')).slice(11,12) == pieceColor && ($('#' + (id - i)).attr('class')).slice(12) == 'rook' && moved.includes(id) == false && moved.includes(5) == false) {
+          placeHighlights((id - i), '#658')
+        }
+        else if(($('#' + (id - i)).attr('class')).slice(12) != '') break;
+      }
+    }
+    
+    
     let king = [-9, -8, -7, -1, 1, 7, 8, 9]
     king.forEach(function(i) {
       if (id + i <= 0 || id + i > 64) return;
