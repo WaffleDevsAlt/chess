@@ -636,6 +636,7 @@ function placeHighlights(id, color) {
 }
 
 $('#reset').click(function() {
+  turn = 'w'
   for (let i = 1; i <= 64; i++) {
   	removePieceImage(i + "i")
     appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
