@@ -42,6 +42,8 @@ $('#63').addClass("bknight")
 $('#64').addClass("brook")
 
 function drawBoard(callMain) {
+  if(turn == 'w') $('#result').html("It's White's turn!")
+  if(turn == 'b') $('#result').html("It's Black's turn!")
   let lane = 1;
   for (let i = 1; i <= 64; i++) {
     if (lane % 2 == 0 && i % 2 == 1) $('#' + i).css('background-color', '#555')
@@ -512,7 +514,6 @@ function appendPieceImage(imageSource, containerId, imageId) {
 
   var img = document.createElement("IMG");
   img.src = imageSource;
-  img.alt = imageSource
   img.setAttribute('id', imageId);
   document.getElementById(containerId).appendChild(img);
   return imageId;
