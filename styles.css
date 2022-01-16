@@ -58,3 +58,8 @@ html {
   top: calc(100vw/2 + 95px);
   top: min(calc(100vw/2 + 105px), 745px);
 }
+
+img {
+  width:calc(100vw/16);
+  height:calc(100vw/16);
+}
