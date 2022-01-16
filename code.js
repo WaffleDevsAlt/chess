@@ -54,9 +54,7 @@ function drawBoard(callMain) {
       else if (lane == 2) lane = 1;
     }
     removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
-    if (($('#' + i).attr('class')).slice(11) == 'wking') whiteKing = i
-    if (($('#' + i).attr('class')).slice(11) == 'bking') blackKing = i
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i") 
   }
 }
 drawBoard()
@@ -72,18 +70,34 @@ $('.chessboard').click(function() {
 })
 
 function logic(pieceType, pieceColor, id, row, column) {
+	if(whiteKing == 'dead' || blackKing == 'dead') return;
   let takeables = []
+  let check = ''
   for (let i = 1; i <= 64; i++) {
     let apieceType = ($(`#${i}`).attr('class')).slice(12);
     let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
     var res = checkForCheck(apieceType, i, apieceColor)
-    if (res != '') takeables.push(res)
-    if (res.includes(whiteKing)) return;
-    if (res.includes(blackKing)) return;
+    for (let i = 0; i <= res.length; i++) {
+    	if(res[i-1] != undefined) takeables.push(res[i-1])
+    }
+  }
+  if (takeables.includes(whiteKing)) check = 'White';
+  if (takeables.includes(blackKing)) check = 'Black'; 
+  if(check != '') {
+  	$('#result').append('<br>' + check + '\'s king is in check!')
   }
   if ((selectedpiece.takeables).includes(id) == true) {
     if (turn == 'w') turn = 'b';
     else if (turn == 'b') turn = 'w';
+    if(pieceType == 'king')
+    if(pieceColor == 'b') {
+    	$('#result').html('White won!')
+      whiteKing = 'dead'
+    }
+    if(pieceColor == 'w') {
+    	$('#result').html('Black won!')
+      blackKing = 'dead'
+    }
     $('#' + id).addClass(selectedpiece.color + selectedpiece.type)
     $('#' + id).removeClass(pieceColor + pieceType)
     $('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
@@ -98,7 +112,21 @@ function logic(pieceType, pieceColor, id, row, column) {
       'color': undefined,
       'takeables': []
     };
-
+		takeables = []
+    check = ''
+    for (let i = 1; i <= 64; i++) {
+      let apieceType = ($(`#${i}`).attr('class')).slice(12);
+      let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
+      let res = checkForCheck(apieceType, i, apieceColor)
+      for (let i = 0; i <= res.length; i++) {
+        if(res[i-1] != undefined) takeables.push(res[i-1])
+      }
+    }
+    if (takeables.includes(whiteKing)) check = 'White';
+    if (takeables.includes(blackKing)) check = 'Black'; 
+    if(check != '') {
+      $('#result').append('<br>' + check + '\'s king is in check!')
+    }
     return;
   }
   if (pieceColor != turn) return;
@@ -361,7 +389,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id + i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id + i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id + i)
           break;
-        } else break;
+        } //else break;
       }
     }
     for (let a = 1; a < 8; a++) {
@@ -370,7 +398,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id - i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id - i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id - i)
           break;
-        } else break;
+        } //else break;
       }
     }
 
@@ -380,7 +408,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id + i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id + i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id + i)
           break;
-        } else break;
+        } //else break;
       }
     }
     for (let a = 1; a < 8; a++) {
@@ -389,7 +417,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id - i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id - i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id - i)
           break;
-        } else break;
+        } //else break;
       }
     }
   }
