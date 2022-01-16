@@ -198,7 +198,35 @@ function logic(pieceType, pieceColor, id, row, column) {
       }
 			return;
     }
-  
+  	
+    if(selectedpiece.type == 'pawn' && row == 1 || row == 8) {
+      $('#' + id).addClass(selectedpiece.color + 'queen')
+    	$('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
+      drawBoard()
+      selectedpiece = {
+        'id': undefined,
+        'type': undefined,
+        'color': undefined,
+        'takeables': []
+      };
+      takeables = []
+      check = ''
+      for (let i = 1; i <= 64; i++) {
+        let apieceType = ($(`#${i}`).attr('class')).slice(12);
+        let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
+        let res = checkForCheck(apieceType, i, apieceColor)
+        for (let i = 0; i <= res.length; i++) {
+          if(res[i-1] != undefined) takeables.push(res[i-1])
+        }
+      }
+      if (takeables.includes(whiteKing)) check = 'White';
+      if (takeables.includes(blackKing)) check = 'Black'; 
+      if(check != '') {
+        $('#result').append('<br>' + check + '\'s king is in check!')
+      }
+			return;
+    }
+    
     $('#' + id).addClass(selectedpiece.color + selectedpiece.type)
     $('#' + id).removeClass(pieceColor + pieceType)
     $('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
@@ -238,7 +266,7 @@ function logic(pieceType, pieceColor, id, row, column) {
     if (takeables.includes(whiteKing)) check = 'White';
     if (takeables.includes(blackKing)) check = 'Black'; 
     if(check != '') {
-      if(whiteKing == 'dead' || blackKing == 'dead') returnl
+      if(whiteKing == 'dead' || blackKing == 'dead') return;
       $('#result').append('<br>' + check + '\'s king is in check!')
     }
     return;
@@ -259,7 +287,7 @@ function logic(pieceType, pieceColor, id, row, column) {
       if (($('#' + (id - 8)).attr('class')).slice(12) == '') {
         placeHighlights((id - 8), '#885')
         if (id - 16 <= 0) return;
-        if (($('#' + (id - 16)).attr('class')).slice(12) == '') {
+        if (($('#' + (id - 16)).attr('class')).slice(12) == '' && row == 7) {
           placeHighlights((id - 16), '#885')
         }
       }
@@ -281,7 +309,7 @@ function logic(pieceType, pieceColor, id, row, column) {
       if (($('#' + (id + 8)).attr('class')).slice(12) == '') {
         placeHighlights((id + 8), '#885')
         if (id + 16 > 64) return;
-        if (($('#' + (id + 16)).attr('class')).slice(12) == '') {
+        if (($('#' + (id + 16)).attr('class')).slice(12) == '' && row == 2) {
           placeHighlights((id + 16), '#885')
         }
       }
