@@ -512,6 +512,7 @@ function appendPieceImage(imageSource, containerId, imageId) {
 
   var img = document.createElement("IMG");
   img.src = imageSource;
+  img.alt = imageSource;
   img.setAttribute('id', imageId);
   document.getElementById(containerId).appendChild(img);
   return imageId;
