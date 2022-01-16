@@ -45,11 +45,11 @@ html {
 
 #result {
   font-family: 'Times', serif;
-  padding: 0;
+  margin: 0;
   position: absolute;
-  left: calc(50vw - 60px);
   top: 10px;
-  width: 120px;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 #reset {
