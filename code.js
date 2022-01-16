@@ -55,7 +55,6 @@ function drawBoard(callMain) {
     appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
     if (($('#' + i).attr('class')).slice(11) == 'wking') whiteKing = i
     if (($('#' + i).attr('class')).slice(11) == 'bking') blackKing = i
-    //$('#' + i).html(($('#' + i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -466,31 +465,32 @@ function placeHighlights(id, color) {
 }
 
 $('#reset').click(function() {
-  console.log(selectedpiece.type)
-  /* for (let i = 1; i <= 64; i++) {
-      $('#'+i).removeClass(($('#'+i).attr('class')).slice(11,12)+($('#'+i).attr('class')).slice(12))
-    }
+  for (let i = 1; i <= 64; i++) {
+  	removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
+    $('#'+i).removeClass(($('#'+i).attr('class')).slice(11,12)+($('#'+i).attr('class')).slice(12))
+  }
   $('#1').addClass("wrook")
-    $('#2').addClass("wknight")
-    $('#3').addClass("wbishop")
-    $('#4').addClass("wqueen")
-    $('#5').addClass("wking")
-    $('#6').addClass("wbishop")
-    $('#7').addClass("wknight")
-    $('#8').addClass("wrook")
-    for(let a = 1; a <= 8; a++) {
-      $('#' + (a+8)).addClass("wpawn")
-      $('#' + (a+48)).addClass("bpawn")
-    }
-    $('#57').addClass("brook")
-    $('#58').addClass("bknight")
-    $('#59').addClass("bbishop")
-    $('#60').addClass("bqueen")
-    $('#61').addClass("bking")
-    $('#62').addClass("bbishop")
-    $('#63').addClass("bknight")
-    $('#64').addClass("brook")
-    drawBoard() */
+  $('#2').addClass("wknight")
+  $('#3').addClass("wbishop")
+  $('#4').addClass("wqueen")
+  $('#5').addClass("wking")
+  $('#6').addClass("wbishop")
+  $('#7').addClass("wknight")
+  $('#8').addClass("wrook")
+  for(let a = 1; a <= 8; a++) {
+    $('#' + (a+8)).addClass("wpawn")
+     $('#' + (a+48)).addClass("bpawn")
+  }
+  $('#57').addClass("brook")
+  $('#58').addClass("bknight")
+  $('#59').addClass("bbishop")
+  $('#60').addClass("bqueen")
+  $('#61').addClass("bking")
+  $('#62').addClass("bbishop")
+  $('#63').addClass("bknight")
+  $('#64').addClass("brook")
+  drawBoard()
 })
 
 
