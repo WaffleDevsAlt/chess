@@ -40,7 +40,7 @@ html {
 
 .chessboard {
   font-size: min(calc(100vw/6), 10px);
-  color:black;
+  color: black;
 }
 
 #result {
@@ -57,10 +57,4 @@ html {
   left: calc(100vw/2 - 25px);
   top: calc(100vw/2 + 95px);
   top: min(calc(100vw/2 + 105px), 745px);
-}
-
-img {
-  position: relative;
-  width:calc(100vw/16);
-  height:calc(100vw/16);
 }
