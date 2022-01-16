@@ -62,7 +62,6 @@ function drawBoard(callMain) {
 drawBoard()
 
 $('.chessboard').click(function() {
-  drawBoard()
   let pieceType = ($(this).attr('class')).slice(12);
   let pieceColor = ($(this).attr('class')).slice(11, 12);
   let id = parseInt(this.id);
@@ -73,6 +72,7 @@ $('.chessboard').click(function() {
 
 function logic(pieceType, pieceColor, id, row, column) {
 	if(whiteKing == 'dead' || blackKing == 'dead') return;
+  drawBoard()
   let takeables = []
   let check = ''
   for (let i = 1; i <= 64; i++) {
@@ -91,15 +91,7 @@ function logic(pieceType, pieceColor, id, row, column) {
   if ((selectedpiece.takeables).includes(id) == true) {
     if (turn == 'w') turn = 'b';
     else if (turn == 'b') turn = 'w';
-    if(pieceType == 'king')
-    if(pieceColor == 'b') {
-    	$('#result').html('White won!')
-      whiteKing = 'dead'
-    }
-    if(pieceColor == 'w') {
-    	$('#result').html('Black won!')
-      blackKing = 'dead'
-    }
+    
     if(selectedpiece.type == 'rook' && pieceType == 'king' && pieceColor == selectedpiece.color && moved.includes(id) == false && moved.includes(selectedpiece.id) == false) {
       if(selectedpiece.id == 8 && id == 5 && pieceColor == 'w') {
         $('#6').addClass('wrook')
@@ -207,11 +199,21 @@ function logic(pieceType, pieceColor, id, row, column) {
       }
 			return;
     }
-    
+  
     $('#' + id).addClass(selectedpiece.color + selectedpiece.type)
     $('#' + id).removeClass(pieceColor + pieceType)
     $('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
     drawBoard()
+    if(pieceType == 'king') {
+      if(pieceColor == 'b') {
+        $('#result').html('White won!')
+        whiteKing = 'dead'
+      }
+      if(pieceColor == 'w') {
+        $('#result').html('Black won!')
+        blackKing = 'dead'
+      }
+    }
     if (selectedpiece.type == 'king') {
       if (selectedpiece.color == 'w') whiteKing = id;
       else if (selectedpiece.color == 'b') blackKing = id;
@@ -237,6 +239,7 @@ function logic(pieceType, pieceColor, id, row, column) {
     if (takeables.includes(whiteKing)) check = 'White';
     if (takeables.includes(blackKing)) check = 'Black'; 
     if(check != '') {
+      if(whiteKing == 'dead' || blackKing == 'dead') returnl
       $('#result').append('<br>' + check + '\'s king is in check!')
     }
     return;
