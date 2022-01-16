@@ -10,13 +10,13 @@ var turn = 'w'
 const path = './pieces/'
 const wrook = path + 'chess_11.png'
 const wknight = path + 'chess_10.png'
-const wbishop = path + 'chess_07.png'
+const wbisop = path + 'chess_07.png'
 const wqueen = path + 'chess_08.png'
 const wking = path + 'chess_09.png'
 const wpawn = path + 'chess_06.png'
 const brook = path + 'chess_05.png'
 const bknight = path + 'chess_04.png'
-const bbishop = path + 'chess_01.png'
+const bbisop = path + 'chess_01.png'
 const bqueen = path + 'chess_02.png'
 const bking = path + 'chess_03.png'
 const bpawn = path + 'chess_00.png'
@@ -96,6 +96,7 @@ function logic(pieceType, pieceColor, id, row, column) {
       'color': undefined,
       'takeables': []
     };
+
     return;
   }
   if (pieceColor != turn) return;
@@ -498,20 +499,20 @@ function appendPieceImage(imageSource, containerId, imageId) {
 
   if (imageSource == 'wrook') imageSource = wrook
   if (imageSource == 'wknight') imageSource = wknight
-  if (imageSource == 'wbisop') imageSource = wbisop
+  if (imageSource == 'wbishop') imageSource = wbishop
   if (imageSource == 'wqueen') imageSource = wqueen
   if (imageSource == 'wking') imageSource = wking
   if (imageSource == 'wpawn') imageSource = wpawn
   if (imageSource == 'brook') imageSource = brook
   if (imageSource == 'bknight') imageSource = bknight
-  if (imageSource == 'bbisop') imageSource = bbisop
+  if (imageSource == 'bbishop') imageSource = bbishop
   if (imageSource == 'bqueen') imageSource = bqueen
   if (imageSource == 'bking') imageSource = bking
   if (imageSource == 'bpawn') imageSource = bpawn
 
   var img = document.createElement("IMG");
   img.src = imageSource;
-  img.alt = imageSource;
+  img.alt = imageSource
   img.setAttribute('id', imageId);
   document.getElementById(containerId).appendChild(img);
   return imageId;
