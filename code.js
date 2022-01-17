@@ -200,6 +200,7 @@ function logic(pieceType, pieceColor, id, row, column) {
     }
   	
     if(selectedpiece.type == 'pawn' && row == 1 || row == 8) {
+    	$('#' + id).removeClass(pieceColor + pieceType)
       $('#' + id).addClass(selectedpiece.color + 'queen')
     	$('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
       drawBoard()
