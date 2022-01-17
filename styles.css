@@ -58,3 +58,11 @@ html {
   top: calc(100vw/2 + 95px);
   top: min(calc(100vw/2 + 105px), 745px);
 }
+
+img {
+  user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
