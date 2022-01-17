@@ -199,7 +199,7 @@ function logic(pieceType, pieceColor, id, row, column) {
 			return;
     }
   	
-    if(selectedpiece.type == 'pawn' && row == 1 || row == 8) {
+    if(selectedpiece.type == 'pawn' && row == 1 || selectedpiece.type == 'pawn' && row == 8) {
     	$('#' + id).removeClass(pieceColor + pieceType)
       $('#' + id).addClass(selectedpiece.color + 'queen')
     	$('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
