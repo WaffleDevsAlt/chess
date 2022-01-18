@@ -9,18 +9,18 @@ var blackKing = 61
 var turn = 'w'
 let moved = []
 const path = './pieces/'
-const wrook = path + 'chess_11.png'
-const wknight = path + 'chess_10.png'
-const wbishop = path + 'chess_07.png'
-const wqueen = path + 'chess_08.png'
-const wking = path + 'chess_09.png'
-const wpawn = path + 'chess_06.png'
-const brook = path + 'chess_05.png'
-const bknight = path + 'chess_04.png'
-const bbishop = path + 'chess_01.png'
-const bqueen = path + 'chess_02.png'
-const bking = path + 'chess_03.png'
-const bpawn = path + 'chess_00.png'
+const wrook = 'chess_11.png'
+const wknight = 'chess_10.png'
+const wbishop = 'chess_07.png'
+const wqueen = 'chess_08.png'
+const wking = 'chess_09.png'
+const wpawn = 'chess_06.png'
+const brook = 'chess_05.png'
+const bknight = 'chess_04.png'
+const bbishop = 'chess_01.png'
+const bqueen = 'chess_02.png'
+const bking = 'chess_03.png'
+const bpawn = 'chess_00.png'
 $('#1').addClass("wrook")
 $('#2').addClass("wknight")
 $('#3').addClass("wbishop")
@@ -54,8 +54,9 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")  
+    /* removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   */
+    $('#' + i).html(($('#'+i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -174,36 +175,9 @@ function logic(pieceType, pieceColor, id, row, column) {
         $('#57').removeClass('brook')
         blackKing = 59
       }
+      moved.push(selectedpiece.id)
+      moved.push(id)
    		drawBoard()
-      selectedpiece = {
-        'id': undefined,
-        'type': undefined,
-        'color': undefined,
-        'takeables': []
-      };
-      takeables = []
-      check = ''
-      for (let i = 1; i <= 64; i++) {
-        let apieceType = ($(`#${i}`).attr('class')).slice(12);
-        let apieceColor = ($(`#${i}`).attr('class')).slice(11, 12);
-        let res = checkForCheck(apieceType, i, apieceColor)
-        for (let i = 0; i <= res.length; i++) {
-          if(res[i-1] != undefined) takeables.push(res[i-1])
-        }
-      }
-      if (takeables.includes(whiteKing)) check = 'White';
-      if (takeables.includes(blackKing)) check = 'Black'; 
-      if(check != '') {
-        $('#result').append('<br>' + check + '\'s king is in check!')
-      }
-			return;
-    }
-  	
-    if(selectedpiece.type == 'pawn' && row == 1 || selectedpiece.type == 'pawn' && row == 8) {
-    	$('#' + id).removeClass(pieceColor + pieceType)
-      $('#' + id).addClass(selectedpiece.color + 'queen')
-    	$('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
-      drawBoard()
       selectedpiece = {
         'id': undefined,
         'type': undefined,
@@ -231,6 +205,12 @@ function logic(pieceType, pieceColor, id, row, column) {
     $('#' + id).addClass(selectedpiece.color + selectedpiece.type)
     $('#' + id).removeClass(pieceColor + pieceType)
     $('#' + selectedpiece.id).removeClass(selectedpiece.color + selectedpiece.type)
+    
+    if(selectedpiece.type == 'pawn' && row == 1 || selectedpiece.type == 'pawn' && row == 8) { 
+    	$('#' + id).addClass(selectedpiece.color + 'queen')
+    	$('#' + id).removeClass(selectedpiece.color + selectedpiece.type)
+    }
+   
     drawBoard()
     if(pieceType == 'king') {
       if(pieceColor == 'b') {
@@ -673,6 +653,8 @@ $('#reset').click(function() {
     appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
     $('#'+i).removeClass(($('#'+i).attr('class')).slice(11,12)+($('#'+i).attr('class')).slice(12))
   }
+  blackKing = 61
+  whiteKing = 5
   $('#1').addClass("wrook")
   $('#2').addClass("wknight")
   $('#3').addClass("wbishop")
@@ -714,7 +696,7 @@ function appendPieceImage(imageSource, containerId, imageId) {
   if (imageSource == 'bpawn') imageSource = bpawn
 
   var img = document.createElement("IMG");
-  img.src = imageSource;
+  img.src = path + imageSource;
   img.setAttribute('id', imageId);
   document.getElementById(containerId).appendChild(img);
   return imageId;
