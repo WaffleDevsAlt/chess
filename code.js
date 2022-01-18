@@ -54,8 +54,9 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
+    /* removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   */
+    $('#' + i).html(($('#'+i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -682,17 +683,18 @@ $('#reset').click(function() {
 function appendPieceImage(imageSource, containerId, imageId) {
 
   if (imageSource == 'wrook') imageSource = wrook
-  if (imageSource == 'wknight') imageSource = wknight
-  if (imageSource == 'wbishop') imageSource = wbishop
-  if (imageSource == 'wqueen') imageSource = wqueen
-  if (imageSource == 'wking') imageSource = wking
-  if (imageSource == 'wpawn') imageSource = wpawn
-  if (imageSource == 'brook') imageSource = brook
-  if (imageSource == 'bknight') imageSource = bknight
-  if (imageSource == 'bbishop') imageSource = bbishop
-  if (imageSource == 'bqueen') imageSource = bqueen
-  if (imageSource == 'bking') imageSource = bking
-  if (imageSource == 'bpawn') imageSource = bpawn
+  else if (imageSource == 'wknight') imageSource = wknight
+  else if (imageSource == 'wbishop') imageSource = wbishop
+  else if (imageSource == 'wqueen') imageSource = wqueen
+  else if (imageSource == 'wking') imageSource = wking
+  else if (imageSource == 'wpawn') imageSource = wpawn
+  else if (imageSource == 'brook') imageSource = brook
+  else if (imageSource == 'bknight') imageSource = bknight
+  else if (imageSource == 'bbishop') imageSource = bbishop
+  else if (imageSource == 'bqueen') imageSource = bqueen
+  else if (imageSource == 'bking') imageSource = bking
+  else if (imageSource == 'bpawn') imageSource = bpawn
+  else return;
 
   var img = document.createElement("IMG");
   img.src = path + imageSource;
