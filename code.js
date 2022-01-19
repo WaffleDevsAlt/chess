@@ -54,8 +54,9 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   
+    /* removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   */
+    $('#' + i).html(($('#' + i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -266,7 +267,7 @@ function logic(pieceType, pieceColor, id, row, column) {
         }
       }
       if (id - 9 > 0) {
-        if (($('#' + (id - 9)).attr('class')).slice(11, 12) == 'w' && Math.floor(id / 8) == row - 1) {
+        if (($('#' + (id - 9)).attr('class')).slice(11, 12) == 'w' && Math.floor(id - 2 / 8) == row - 1) {
           placeHighlights(id - 9, '#855')
         }
       }
@@ -294,7 +295,7 @@ function logic(pieceType, pieceColor, id, row, column) {
       }
 
       if (id + 7 <= 64) {
-        if (($('#' + (id + 7)).attr('class')).slice(11, 12) == 'b'  && Math.floor((id + 16) / 8) == row + 1) {
+        if (($('#' + (id + 7)).attr('class')).slice(11, 12) == 'b'  && Math.floor((id + 14) / 8) == row + 1) {
           placeHighlights(id + 7, '#855')
         }
       }
