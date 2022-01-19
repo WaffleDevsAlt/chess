@@ -87,6 +87,7 @@ function logic(pieceType, pieceColor, id, row, column) {
   if(check != '') {
   	$('#result').append('<br>' + check + '\'s king is in check!')
   }
+	
   if ((selectedpiece.takeables).includes(id) == true) {
     if (turn == 'w') turn = 'b';
     else if (turn == 'b') turn = 'w';
