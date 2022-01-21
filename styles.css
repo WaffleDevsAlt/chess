@@ -54,16 +54,13 @@ html {
 
 #reset {
   position: absolute;
-  height: 30px;
   left: calc(100vw/2 - 25px);
   top: calc(100vw/2 + 95px);
   top: min(calc(100vw/2 + 105px), 745px);
-  color: white;
-  background-color: #222;
-  border: 2px solid #ccc;
 }
 
 img {
+  width: calc(100vw/16);
   user-drag: none;
   user-select: none;
   -webkit-user-drag: none;
