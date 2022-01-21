@@ -54,9 +54,8 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    /* removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   */
-    $('#' + i).html(($('#' + i).attr('class')).slice(11))
+    removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
   }
 }
 drawBoard()
