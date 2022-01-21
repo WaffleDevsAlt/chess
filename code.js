@@ -54,8 +54,9 @@ function drawBoard(callMain) {
       if (lane == 1) lane = 2;
       else if (lane == 2) lane = 1;
     }
-    removePieceImage(i + "i")
-    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")
+    /* removePieceImage(i + "i")
+    appendPieceImage(($('#' + i).attr('class')).slice(11), i, i + "i")   */
+    $('#' + i).html(($('#' + i).attr('class')).slice(11))
   }
 }
 drawBoard()
@@ -245,7 +246,7 @@ function logic(pieceType, pieceColor, id, row, column) {
     }
     return;
   }
-  if (pieceColor != turn) return;
+  if (pieceColor != turn && pieceType != '') return;
   selectedpiece = {
     'id': id,
     'type': pieceType,
@@ -276,7 +277,6 @@ function logic(pieceType, pieceColor, id, row, column) {
           placeHighlights(id - 7, '#855')
         }
       }
-
     }
     if (pieceColor == 'w') {
       if (id + 8 > 64) return;
@@ -288,18 +288,19 @@ function logic(pieceType, pieceColor, id, row, column) {
         }
       }
       if (id + 9 <= 64) {
-        if (($('#' + (id + 9)).attr('class')).slice(11, 12) == 'b'  && Math.floor((id + 16) / 8) == row + 1) {
+        if (($('#' + (id + 9)).attr('class')).slice(11, 12) == 'b' && Math.floor((id + 16) / 8) == row + 1) {
           placeHighlights(id + 9, '#855')
         }
       }
 
       if (id + 7 <= 64) {
-        if (($('#' + (id + 7)).attr('class')).slice(11, 12) == 'b'  && Math.floor((id + 14) / 8) == row + 1) {
+        if (($('#' + (id + 7)).attr('class')).slice(11, 12) == 'b' && Math.floor((id + 14) / 8) == row + 1) {
           placeHighlights(id + 7, '#855')
         }
       }
     }
   }
+
   //knight highlighting
   if (pieceType == 'knight') {
     let knight = [6, 10, 15, 17]
@@ -472,42 +473,43 @@ function logic(pieceType, pieceColor, id, row, column) {
       } else return;
     })
   }
-}
 
+  moddedLogic(pieceType, pieceColor, id, row, column)
+}
 
 function checkForCheck(pieceType, id, pieceColor) {
   let row = Math.floor((id + 7) / 8);
   let column = id % 8
   let res = []
 
-
   //pawn highlighting
   if (pieceType == 'pawn') {
     if (pieceColor == 'b') {
       if (id - 9 > 0) {
-        if (($('#' + (id - 9)).attr('class')).slice(12) != '' && Math.floor((id - 2) / 8) == row - 1) {
+        if (($('#' + (id - 9)).attr('class')).slice(12) != '' && Math.floor((id - 2) / 8) == row - 1 && ($('#' + (id - 9)).attr('class')).slice(11, 12) == 'w') {
           res.push(id - 9)
         }
       }
       if (id - 7 > 0) {
-        if (($('#' + (id - 7)).attr('class')).slice(12) != '' && Math.floor((id) / 8) == row - 1) {
+        if (($('#' + (id - 7)).attr('class')).slice(12) != '' && Math.floor((id) / 8) == row - 1 && ($('#' + (id - 7)).attr('class')).slice(11, 12) == 'w') {
           res.push(id - 7)
         }
       }
     }
     if (pieceColor == 'w') {
       if (id + 9 <= 64) {
-        if (($('#' + (id + 9)).attr('class')).slice(12) != '' && Math.floor((id + 16) / 8) == row + 1) {
+        if (($('#' + (id + 9)).attr('class')).slice(12) != '' && Math.floor((id + 16) / 8) == row + 1 && ($('#' + (id + 9)).attr('class')).slice(11, 12) == 'b') {
           res.push(id + 9)
         }
       }
       if (id + 7 <= 64) {
-        if (($('#' + (id + 7)).attr('class')).slice(12) != '' && Math.floor((id + 14) / 8) == row + 1) {
+        if (($('#' + (id + 7)).attr('class')).slice(12) != '' && Math.floor((id + 14) / 8) == row + 1 && ($('#' + (id + 7)).attr('class')).slice(11, 12) == 'b') {
           res.push(id + 7)
         }
       }
     }
   }
+
   //knight highlighting
   if (pieceType == 'knight') {
     let knight = [6, 10, 15, 17]
@@ -524,6 +526,7 @@ function checkForCheck(pieceType, id, pieceColor) {
       }
     })
   }
+
   //bishop highlighting
   if (pieceType == 'bishop' || pieceType == 'queen') {
     for (let a = 1; a < 8; a++) {
@@ -532,7 +535,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id + i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id + i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id + i)
           break;
-        } //else break;
+        } else break;
       }
     }
     for (let a = 1; a < 8; a++) {
@@ -541,7 +544,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id - i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id - i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id - i)
           break;
-        } //else break;
+        } else break;
       }
     }
 
@@ -551,7 +554,7 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id + i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id + i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id + i)
           break;
-        } //else break;
+        } else break;
       }
     }
     for (let a = 1; a < 8; a++) {
@@ -560,10 +563,11 @@ function checkForCheck(pieceType, id, pieceColor) {
         if (($('#' + (id - i)).attr('class')).slice(11, 12) == 'w' && pieceColor == 'b' || ($('#' + (id - i)).attr('class')).slice(11, 12) == 'b' && pieceColor == 'w') {
           res.push(id - i)
           break;
-        } //else break;
+        } else break;
       }
     }
   }
+
   //rook highlighting
   if (pieceType == 'rook' || pieceType == 'queen') {
     //right
@@ -618,6 +622,13 @@ function checkForCheck(pieceType, id, pieceColor) {
       } else return;
     })
   }
+  
+	//Debug
+  /* for (let i = 0; i <= res.length; i++) {
+    if (res[i - 1] != undefined) $('#' + res[i - 1]).css('background-color', 'blue');
+  } */
+
+  res.push(moddedCheckLogic(pieceType, pieceColor, id, row, column))
 
   return res;
 }
@@ -638,6 +649,8 @@ function placeHighlights(id, color) {
 }
 
 $('#reset').click(function() {
+  /* 	console.log(selectedpiece)
+  	  return; */
   turn = 'w'
   for (let i = 1; i <= 64; i++) {
     removePieceImage(i + "i")
@@ -698,4 +711,49 @@ function removePieceImage(imageId) {
   var elementToBeRemoved = document.getElementById(imageId);
   if (elementToBeRemoved == undefined) return;
   elementToBeRemoved.parentElement.removeChild(elementToBeRemoved);
+}
+
+//Mod Support
+
+const welcomeMessage = '===========================\nWelcome to my Chess mod!\nSince you opened console, im going to assume you know what your doing.\nCommands:\nsetPos(pieceType, pieceColor, id)\nsetBoard(board)\ngetBoard()\n==========================='
+console.log(welcomeMessage)
+
+function setPos(pieceType, pieceColor, id) {
+  $('#' + id).removeClass(($('#' + id).attr('class')).slice(11))
+  $('#' + id).addClass(pieceColor + pieceType)
+  drawBoard()
+}
+
+function getBoard() {
+  let res = []
+  let a = ''
+  for (let i = 1; i <= 64; i++) {
+    res.push(($('#' + i).attr('class')).slice(11))
+  }
+  console.log('Board Data: ' + res)
+}
+
+function setBoard(value) {
+  if (value == 'blank') {
+    for (let i = 1; i <= 64; i++) {
+      $('#' + i).removeClass(($('#' + i).attr('class')).slice(11))
+    }
+    drawBoard()
+  } else {
+    let board = value.split(',')
+    console.log(board)
+    for (let i = 1; i <= 64; i++) {
+      $('#' + i).removeClass(($('#' + i).attr('class')).slice(11))
+      $('#' + i).addClass(board[i - 1])
+    }
+    drawBoard()
+  }
+}
+
+function moddedLogic(pieceType, pieceColor, id, row, column) {
+  //There aren't any mods in the base game
+}
+
+function moddedCheckLogic(pieceType, pieceColor, id, row, column) {
+  //There aren't any mods in the base game
 }
