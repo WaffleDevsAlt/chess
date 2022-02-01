@@ -270,11 +270,10 @@ function logic(pieceType, pieceColor, id, row, column) {
         }
       }
       if (id - 9 > 0) {
-        if (($('#' + (id - 9)).attr('class')).slice(11, 12) == 'w' && Math.floor(id - 2 / 8) == row - 1) {
+        if (($('#' + (id - 9)).attr('class')).slice(11, 12) == 'w' && Math.floor((id - 2) / 8) == row - 1) {
           placeHighlights(id - 9, '#855')
         }
       }
-
       if (id - 7 > 0) {
         if (($('#' + (id - 7)).attr('class')).slice(11, 12) == 'w' && Math.floor(id / 8) == row - 1) {
           placeHighlights(id - 7, '#855')
